@@ -19,6 +19,10 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation("org.postgresql:postgresql")
+    implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
+    implementation("org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
