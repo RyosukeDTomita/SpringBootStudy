@@ -84,7 +84,8 @@ domain/       Entities and repository interface (port)
 dao/          MyBatis @Mapper implementing the repository (adapter)
 ```
 
-SQL is defined in `src/main/resources/mapper/UserMapper.xml`.
+- View: Thymeleaf templates (`src/main/resources/templates/`)
+- SQL: MyBatis XML Mapper (`src/main/resources/mapper/UserMapper.xml`)
 
 ### API / Endpoints
 
