@@ -3,4 +3,4 @@ APP=$(podman ps -q --filter ancestor=spring-boot-study:latest)
 if [ -n "$APP" ]; then
     podman stop "$APP"
 fi
-podman compose down
+podman rm -f userdb

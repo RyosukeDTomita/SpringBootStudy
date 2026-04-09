@@ -19,7 +19,7 @@ Implements a user profile search feature using MVC + Hexagonal Architecture (Con
 **Requirements**
 
 - [Nix](https://nixos.org/) (flakes enabled)
-- [Podman](https://podman.io/) (with podman-compose)
+- [Podman](https://podman.io/)
 
 **Enter the dev shell** (provides Java 21 + Gradle):
 
@@ -29,23 +29,23 @@ nix develop
 
 ## For Developer
 
-### Start the database
-
-```bash
-podman compose up -d
-```
-
-This starts a PostgreSQL container and loads `db/init.sql` (creates the `users` table with dummy data).
-
 ### Run locally
 
 ```bash
-# Start app (DB must be running first)
+# 1. Start DB
+podman run -d \
+    --name userdb \
+    -e POSTGRES_DB=userdb \
+    -e POSTGRES_USER=user \
+    -e POSTGRES_PASSWORD=password \
+    -p 5432:5432 \
+    -v "$(pwd)/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro" \
+    docker.io/postgres:16
+
+# 2. Start app
 gradle bootRun
 
-# Stop DB
-podman compose down
-# Or stop everything at once
+# 3. Stop everything
 ./stop.sh
 ```
 
@@ -69,27 +69,10 @@ nix fmt
 ### Run as container
 
 ```bash
-# All-in-one
+# All-in-one (starts DB + builds and runs app container)
 ./deploy.sh
-```
 
-Or step by step:
-
-```bash
-# 1. Build the jar
-gradle bootJar
-
-# 2. Build OCI image via Nix
-nix build path:.#container
-
-# 3. Load into Podman
-podman load < result
-
-# 4. Start DB and app
-podman compose up -d
-podman run --rm -p 8080:8080 spring-boot-study:latest
-
-# 5. Stop
+# Stop
 ./stop.sh
 ```
 
@@ -105,11 +88,11 @@ SQL is defined in `src/main/resources/mapper/UserMapper.xml`.
 
 ### API / Endpoints
 
-| Method | Path             | Description                    |
-| ------ | ---------------- | ------------------------------ |
-| GET    | `/hello`         | Greeting API (JSON)            |
-| GET    | `/users`         | User search form               |
-| GET    | `/users/{userId}`| Show user profile              |
+| Method | Path              | Description         |
+| ------ | ----------------- | ------------------- |
+| GET    | `/hello`          | Greeting API (JSON) |
+| GET    | `/users`          | User search form    |
+| GET    | `/users/{userId}` | Show user profile   |
 
 **Hello API example:**
 
