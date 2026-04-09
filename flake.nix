@@ -11,7 +11,7 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        jarName = "spring-boot-study-0.0.1-SNAPSHOT.jar";
+        jarName = "spring-boot-study-0.0.1-SNAPSHOT.war";
         jarPath = ./build/libs/${jarName};
 
         treefmtEval = treefmt-nix.lib.evalModule pkgs {

@@ -21,7 +21,7 @@ until podman exec "${CONTAINER_NAME}" pg_isready -U user -d userdb > /dev/null 2
 done
 
 # Build and run app
-gradle bootJar
+gradle bootWar
 nix build path:.#container
 podman load < result
 podman run --rm -p 8080:8080 spring-boot-study:latest
