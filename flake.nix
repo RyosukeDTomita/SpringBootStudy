@@ -28,8 +28,11 @@
         formatter = treefmtEval.config.build.wrapper;
 
         # --- コンテナイメージ ---
-        # 使い方:
-        #   gradle bootJar
+        # 使い方（./deploy.sh で一括実行も可）:
+        #   podman run -d --name userdb -e POSTGRES_DB=userdb -e POSTGRES_USER=user \
+        #     -e POSTGRES_PASSWORD=password -p 5432:5432 \
+        #     -v ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro docker.io/postgres:16
+        #   gradle bootJar (Thymeleafなので JAR で動作)
         #   nix build .#container
         #   podman load < result
         #   podman run --rm -p 8080:8080 spring-boot-study:latest
@@ -88,11 +91,11 @@
               echo " Podman: $(podman --version)"
             fi
             echo ""
-            echo " コンテナビルド手順:"
-            echo "   gradle bootJar"
-            echo "   nix build .#container"
-            echo "   podman load < result"
-            echo "   podman run --rm -p 8080:8080 spring-boot-study:latest"
+            echo " 起動手順:"
+            echo "   ./deploy.sh          # DB起動 + コンテナビルド + アプリ起動"
+            echo "   ./stop.sh            # 全停止"
+            echo " ローカル開発:"
+            echo "   gradle bootRun       # DB起動後に実行"
             echo "──────────────────────────────────────────────"
           '';
         };

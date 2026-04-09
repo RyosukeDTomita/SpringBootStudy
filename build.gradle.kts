@@ -19,6 +19,9 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4")
+    implementation("org.postgresql:postgresql")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

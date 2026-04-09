@@ -1,0 +1,16 @@
+{
+  "folders": [
+    { "path": "." }
+  ],
+  "extensions": {
+    "recommendations": [
+      "vscjava.vscode-java-pack",
+      "vmware.vscode-boot-dev-pack",
+      "redhat.java",
+      "vscjava.vscode-spring-boot-dashboard",
+      "vscjava.vscode-spring-initializr",
+      "vscjava.vscode-gradle"
+    ],
+    "unwantedRecommendations": []
+  }
+}
