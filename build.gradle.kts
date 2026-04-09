@@ -1,6 +1,5 @@
 plugins {
     java
-    war
     id("org.springframework.boot") version "3.4.5"
     id("io.spring.dependency-management") version "1.1.7"
 }
@@ -22,8 +21,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4")
     implementation("org.postgresql:postgresql")
-    implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
-    implementation("org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
@@ -31,6 +29,6 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-tasks.named<org.springframework.boot.gradle.tasks.bundling.BootWar>("bootWar") {
-    archiveFileName = "${rootProject.name}-${version}.war"
+tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+    archiveFileName = "${rootProject.name}-${version}.jar"
 }

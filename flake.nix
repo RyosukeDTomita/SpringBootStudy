@@ -11,7 +11,7 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        jarName = "spring-boot-study-0.0.1-SNAPSHOT.war";
+        jarName = "spring-boot-study-0.0.1-SNAPSHOT.jar";
         jarPath = ./build/libs/${jarName};
 
         treefmtEval = treefmt-nix.lib.evalModule pkgs {
@@ -32,7 +32,7 @@
         #   podman run -d --name userdb -e POSTGRES_DB=userdb -e POSTGRES_USER=user \
         #     -e POSTGRES_PASSWORD=password -p 5432:5432 \
         #     -v ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro docker.io/postgres:16
-        #   gradle bootJar
+        #   gradle bootJar (Thymeleafなので JAR で動作)
         #   nix build .#container
         #   podman load < result
         #   podman run --rm -p 8080:8080 spring-boot-study:latest
