@@ -1,3 +1,6 @@
 #!/bin/bash
-podman stop $(podman ps -q --filter ancestor=spring-boot-study:latest)
+APP=$(podman ps -q --filter ancestor=spring-boot-study:latest)
+if [ -n "$APP" ]; then
+    podman stop "$APP"
+fi
 podman compose down

@@ -12,12 +12,14 @@ Tutorial repository for Java 21 + Spring Boot 3.x.
 
 A study project exploring Spring Boot 3 with Java 21, packaged as an OCI container image via Nix.
 
+Implements a user profile search feature using MVC + Hexagonal Architecture (Controller / Domain / DAO layers), with MyBatis XML Mapper for SQL and PostgreSQL as the database.
+
 ## ENVIRONMENT
 
 **Requirements**
 
 - [Nix](https://nixos.org/) (flakes enabled)
-- [Podman](https://podman.io/)
+- [Podman](https://podman.io/) (with podman-compose)
 
 **Enter the dev shell** (provides Java 21 + Gradle):
 
@@ -27,15 +29,24 @@ nix develop
 
 ## For Developer
 
+### Start the database
+
+```bash
+podman compose up -d
+```
+
+This starts a PostgreSQL container and loads `db/init.sql` (creates the `users` table with dummy data).
+
 ### Run locally
 
 ```bash
-# Start
+# Start app (DB must be running first)
 gradle bootRun
 
-# Verify in another terminal
-curl http://localhost:8080/hello
-curl "http://localhost:8080/hello?name=Spring"
+# Stop DB
+podman compose down
+# Or stop everything at once
+./stop.sh
 ```
 
 ### Test
@@ -74,18 +85,39 @@ nix build path:.#container
 # 3. Load into Podman
 podman load < result
 
-# 4. Start
+# 4. Start DB and app
+podman compose up -d
 podman run --rm -p 8080:8080 spring-boot-study:latest
 
-# 5. Verify
-curl http://localhost:8080/hello
-
-# 6. Stop
-podman stop $(podman ps -q --filter ancestor=spring-boot-study:latest)
+# 5. Stop
+./stop.sh
 ```
 
-### API
+### Architecture
 
-| Method | Path     | Parameter                          | Response example                                    |
-| ------ | -------- | ---------------------------------- | --------------------------------------------------- |
-| GET    | `/hello` | `name` (optional, default: `World`) | `{"message":"Hello, World!","name":"World"}` |
+```
+controller/   HTTP layer (Spring MVC @Controller)
+domain/       Entities and repository interface (port)
+dao/          MyBatis @Mapper implementing the repository (adapter)
+```
+
+SQL is defined in `src/main/resources/mapper/UserMapper.xml`.
+
+### API / Endpoints
+
+| Method | Path             | Description                    |
+| ------ | ---------------- | ------------------------------ |
+| GET    | `/hello`         | Greeting API (JSON)            |
+| GET    | `/users`         | User search form               |
+| GET    | `/users/{userId}`| Show user profile              |
+
+**Hello API example:**
+
+```bash
+curl http://localhost:8080/hello
+curl "http://localhost:8080/hello?name=Spring"
+```
+
+**User search:** open `http://localhost:8080/users` in a browser.
+
+Available dummy users: `user001`, `user002`, `user003`, `alice`, `bob`

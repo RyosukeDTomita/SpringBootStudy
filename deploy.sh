@@ -1,4 +1,8 @@
 #!/bin/bash
+set -e
+
+podman compose up -d
+
 gradle bootJar
 nix build path:.#container
 podman load < result
