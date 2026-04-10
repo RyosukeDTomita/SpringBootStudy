@@ -1,7 +1,9 @@
 package com.example.study.controller;
 
+import com.example.study.controller.dto.UserResponse;
+import com.example.study.converter.UserConverter;
 import com.example.study.domain.User;
-import com.example.study.domain.UserRepository;
+import com.example.study.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +16,12 @@ import java.util.Optional;
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
+    private final UserConverter userConverter;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService, UserConverter userConverter) {
+        this.userService = userService;
+        this.userConverter = userConverter;
     }
 
     @GetMapping
@@ -27,12 +31,13 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public String showProfile(@PathVariable String userId, Model model) {
-        Optional<User> user = userRepository.findByUserId(userId);
+        Optional<User> user = userService.findByUserId(userId);
         if (user.isEmpty()) {
             model.addAttribute("errorMessage", "ユーザーが見つかりませんでした: " + userId);
             return "user/search";
         }
-        model.addAttribute("user", user.get());
+        UserResponse response = userConverter.toResponse(user.get());
+        model.addAttribute("user", response);
         return "user/profile";
     }
 }

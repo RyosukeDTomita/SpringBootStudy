@@ -4,7 +4,7 @@
 
 <mapper namespace="com.example.study.dao.UserMapper">
 
-    <resultMap id="userResultMap" type="User">
+    <resultMap id="userResultMap" type="UserEntity">
         <id     property="userId"  column="user_id"/>
         <result property="profile" column="profile"/>
     </resultMap>
