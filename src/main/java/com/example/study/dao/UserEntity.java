@@ -4,6 +4,7 @@ public class UserEntity {
     private String userId;
     private String profile;
 
+    // NOTE: JPAが引数なしコンストラクタを必要としており、recordは引数なしコンストラクタを持たないため、手書きで作成されている。
     public UserEntity() {
     }
 

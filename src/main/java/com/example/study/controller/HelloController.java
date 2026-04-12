@@ -12,6 +12,8 @@ public class HelloController {
 
     private final Clock clock;
 
+    // DI
+    // @Autowired // コンストラクタ1つの場合は省略可能
     public HelloController(Clock clock) {
         this.clock = clock;
     }

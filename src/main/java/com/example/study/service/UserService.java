@@ -11,6 +11,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    // @Autowired // コンストラクタ1つの場合は省略可能
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

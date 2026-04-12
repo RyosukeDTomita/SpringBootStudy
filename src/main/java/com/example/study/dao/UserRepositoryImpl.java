@@ -18,6 +18,10 @@ public class UserRepositoryImpl implements UserRepository {
         this.userConverter = userConverter;
     }
 
+    /**
+     * NOTE: MyBatisを差し替え可能なように切り離しいている(依存性逆転の原則)。
+     * 依存性逆転とはdomainがInterfaceを定義し、daoがそれを実装することをいう。これによい、domainはdaoに依存しないようになる。
+     */
     @Override
     public Optional<User> findByUserId(String userId) {
         return userMapper.findByUserId(userId)
