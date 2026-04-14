@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.study.dao.OrderMapper">
+
+<!-- 注文後にordersテーブルに注文情報を挿入する -->
+    <insert id="insert" parameterType="OrderEntity">
+        INSERT INTO orders (product_id, quantity, ordered_at)
+        VALUES (#{productId}, #{quantity}, #{orderedAt})
+    </insert>
+
+</mapper>

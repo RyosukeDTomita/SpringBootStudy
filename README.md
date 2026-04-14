@@ -4,15 +4,36 @@ Tutorial repository for Java 21 + Spring Boot 3.x.
 
 ## INDEX
 
+- [TECH STACK](#tech-stack)
 - [ABOUT](#about)
 - [ENVIRONMENT](#environment)
 - [For Developer](#for-developer)
+
+---
+
+## TECH STACK
+
+| Category | Technology |
+| -------- | ---------- |
+| Language | Java |
+| Framework | Spring Boot |
+| Build | Gradle (Kotlin DSL) |
+| ORM | MyBatis |
+| Mapping | MapStruct |
+| Template | Thymeleaf |
+| DB | PostgreSQL |
+| Dev Environment | Nix (flakes) |
+| Container | Podman + Nix `dockerTools` |
+
+---
 
 ## ABOUT
 
 A study project exploring Spring Boot 3 with Java 21, packaged as an OCI container image via Nix.
 
 Implements a user profile search feature using MVC + Hexagonal Architecture (Controller / Domain / DAO layers), with MyBatis XML Mapper for SQL and PostgreSQL as the database.
+
+---
 
 ## ENVIRONMENT
 
@@ -26,6 +47,8 @@ Implements a user profile search feature using MVC + Hexagonal Architecture (Con
 ```bash
 nix develop
 ```
+
+---
 
 ## For Developer
 
