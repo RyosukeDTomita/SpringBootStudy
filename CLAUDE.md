@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+
+
 ## デプロイ・起動手順を変更するとき
 
 起動/停止フローに変更が生じた場合、以下の**すべて**を必ず同時に更新すること。
@@ -12,3 +14,7 @@
 | `README.md` | `Run locally` / `Run as container` セクションの手順 |
 
 一つでも漏れると手順が食い違うため、必ずセットで修正する。
+
+## Java / Spring Boot
+
+- Spring Boot プロジェクトでは、常にモダンな Spring Boot イディオム（例: `@SpringBootApplication`、auto-configuration）を使用すること。`AnnotationConfigApplicationContext` などのレガシーなアプローチは使わない。
