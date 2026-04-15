@@ -30,6 +30,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
+    // NOTE:@PathVariableを使うとurlは/profile/123のようになる。@RequestParamを使うと/profile?userId=123のような形式になる。
     public String showProfile(@PathVariable String userId, Model model) {
         Optional<User> user = userService.findByUserId(userId);
         if (user.isEmpty()) {
@@ -37,7 +38,7 @@ public class UserController {
             return "user/search";
         }
         UserResponse response = userConverter.toResponse(user.get());
-        model.addAttribute("user", response);
+        model.addAttribute("user", response); // th:text="${user.userId}でThymeleafから引ける
         return "user/profile";
     }
 }

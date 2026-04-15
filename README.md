@@ -23,6 +23,7 @@ Tutorial repository for Java 21 + Spring Boot 3.x.
 | Template | Thymeleaf |
 | DB | PostgreSQL |
 | Dev Environment | Nix (flakes) |
+| Built in AP Server | Tomcat |
 | Container | Podman + Nix `dockerTools` |
 
 ---
