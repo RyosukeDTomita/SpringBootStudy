@@ -34,6 +34,36 @@ A study project exploring Spring Boot 3 with Java 21, packaged as an OCI contain
 
 Implements a user profile search feature using MVC + Hexagonal Architecture (Controller / Domain / DAO layers), with MyBatis XML Mapper for SQL and PostgreSQL as the database.
 
+### Spring Features
+
+| カテゴリ | 機能 |
+| --- | --- |
+| DI | コンストラクタインジェクション (`@Autowired` 省略) |
+| DI | `@Configuration` + `@Bean` による Bean 定義 |
+| MVC | `@Controller` + `@RequestMapping` (画面遷移) |
+| MVC | `@RestController` (JSON API) |
+| MVC | `@GetMapping` / `@PostMapping` / `@PutMapping` / `@DeleteMapping` |
+| MVC | `@PathVariable` / `@RequestParam` |
+| MVC | `@RequestBody` / `@ResponseStatus` による JSON 送受信 |
+| MVC | `@ModelAttribute` + `Model` によるフォームバインディング |
+| MVC | リダイレクト (`redirect:`) |
+| MVC | 静的リソース配信 (`static/`) |
+| Validation | Bean Validation (`@Valid`, `@NotBlank`, `BindingResult`) |
+| テンプレート | Thymeleaf (`th:action`, `th:object`, `th:field`, `th:text`, `th:if`, `th:errors`) |
+| トランザクション | `@Transactional` による宣言的トランザクション管理 |
+| データアクセス | MyBatis (`@Mapper` + XML Mapper) |
+| データアクセス | MyBatis `useGeneratedKeys` による自動採番 |
+| アーキテクチャ | ヘキサゴナル (依存性逆転): domain にインターフェース、dao に `@Repository` 実装 |
+| マッピング | MapStruct (`@Mapper(componentModel = "spring")`, `@Mapping`) |
+| Security | `@EnableWebSecurity` + `SecurityFilterChain` によるロールベースアクセス制御 |
+| Security | フォームログイン + `HttpSession` によるセッション管理 |
+| Security | `InMemoryUserDetailsManager` によるユーザ定義 |
+| Security | `CookieCsrfTokenRepository` による CSRF 対策 |
+| Security | `thymeleaf-extras-springsecurity6` (`sec:authentication`) による認証情報の画面表示 |
+| テスト | `@WebMvcTest` + `MockMvc` によるコントローラー単体テスト |
+| 設定 | `application.yaml` による外部設定 (datasource, mybatis) |
+| レコード | Java `record` を DTO として活用 |
+
 ---
 
 ## ENVIRONMENT
@@ -113,11 +143,19 @@ dao/          MyBatis @Mapper implementing the repository (adapter)
 
 ### API / Endpoints
 
-| Method | Path              | Description         |
-| ------ | ----------------- | ------------------- |
-| GET    | `/hello`          | Greeting API (JSON) |
-| GET    | `/users`          | User search form    |
-| GET    | `/users/{userId}` | Show user profile   |
+| Method | Path                      | Description              | Auth        |
+| ------ | ------------------------- | ------------------------ | ----------- |
+| GET    | `/hello`                  | Greeting API (JSON)      | -           |
+| GET    | `/users`                  | User search form         | -           |
+| GET    | `/users/{userId}`         | Show user profile        | -           |
+| GET    | `/shop`                   | Shop page                | USER        |
+| POST   | `/shop/purchase`          | Purchase product         | USER        |
+| GET    | `/register/item`          | List all items (JSON)    | ADMIN       |
+| GET    | `/register/item/{itemId}` | Get item by ID (JSON)    | ADMIN       |
+| POST   | `/register/item`          | Create item (JSON)       | ADMIN       |
+| PUT    | `/register/item/{itemId}` | Update item (JSON)       | ADMIN       |
+| DELETE | `/register/item/{itemId}` | Delete item              | ADMIN       |
+| GET    | `/api/me`                 | Current user info (JSON) | USER        |
 
 **Hello API example:**
 
