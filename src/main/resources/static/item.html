@@ -31,6 +31,9 @@
     </style>
 </head>
 <body>
+    <!-- /api/me から取得した認証ユーザ名を表示 -->
+    <div id="authInfo" style="text-align: right; color: #666;"></div>
+
     <h1>商品登録 (REST API)</h1>
 
     <h2>商品を登録する</h2>
@@ -61,11 +64,26 @@
     </table>
 
     <div class="nav">
-        <a href="/shop">ショップへ</a> | <a href="/users">ユーザー検索へ</a>
+        <a href="/">ホームへ戻る</a>
     </div>
 
     <script>
         const API = '/register/item';
+
+        // CookieCsrfTokenRepository が書き出す XSRF-TOKEN Cookie から CSRF トークンを読み取る
+        function getCsrfToken() {
+            const match = document.cookie.match(/XSRF-TOKEN=([^;]+)/);
+            return match ? decodeURIComponent(match[1]) : '';
+        }
+
+        // POST/PUT/DELETE 用の fetch ラッパー（CSRF ヘッダを自動付与）
+        function fetchWithCsrf(url, options = {}) {
+            options.headers = {
+                ...options.headers,
+                'X-XSRF-TOKEN': getCsrfToken()
+            };
+            return fetch(url, options);
+        }
 
         function showMsg(text, ok) {
             const el = document.getElementById('message');
@@ -95,7 +113,7 @@
                 price: Number(document.getElementById('createPrice').value),
                 description: document.getElementById('createDesc').value
             };
-            const res = await fetch(API, {
+            const res = await fetchWithCsrf(API, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body)
@@ -117,7 +135,7 @@
                 price: Number(document.getElementById('updatePrice').value),
                 description: document.getElementById('updateDesc').value
             };
-            const res = await fetch(API + '/' + id, {
+            const res = await fetchWithCsrf(API + '/' + id, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body)
@@ -132,7 +150,7 @@
         });
 
         async function deleteItem(id) {
-            const res = await fetch(API + '/' + id, { method: 'DELETE' });
+            const res = await fetchWithCsrf(API + '/' + id, { method: 'DELETE' });
             if (res.ok) {
                 showMsg('削除しました (ID: ' + id + ')', true);
                 loadItems();
@@ -140,6 +158,12 @@
                 showMsg('削除に失敗しました', false);
             }
         }
+
+        // ログインユーザ名を表示
+        fetch('/api/me').then(r => r.json()).then(data => {
+            document.getElementById('authInfo').innerHTML =
+                'ログイン中: ' + data.username + ' | <a href="/logout" style="color: #c0392b;">ログアウト</a>';
+        });
 
         loadItems();
     </script>

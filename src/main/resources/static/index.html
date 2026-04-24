@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring Boot Study</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 0 20px; }
+        h1 { color: #333; }
+        ul { list-style: none; padding: 0; }
+        li { margin: 12px 0; }
+        a { color: #4a90d9; text-decoration: none; font-size: 1.1rem; }
+        a:hover { text-decoration: underline; }
+        .desc { color: #888; font-size: 0.9rem; margin-left: 8px; }
+        .auth { font-size: 0.8rem; color: #fff; border-radius: 4px; padding: 2px 6px; margin-left: 6px; }
+        .auth-admin { background: #c0392b; }
+        .auth-user { background: #2980b9; }
+    </style>
+</head>
+<body>
+    <h1>Spring Boot Study</h1>
+    <ul>
+        <li>
+            <a href="/login">Login</a>
+            <span class="desc">Spring Security form login</span>
+        </li>
+        <li>
+            <a href="/hello">Hello API</a>
+            <span class="desc">Greeting JSON API</span>
+        </li>
+        <li>
+            <a href="/users">User Search</a>
+            <span class="desc">Thymeleaf + MVC</span>
+        </li>
+        <li>
+            <a href="/shop">Shop</a>
+            <span class="desc">Transaction</span>
+            <span class="auth auth-user">USER</span>
+        </li>
+        <li>
+            <a href="/item.html">Item Registration</a>
+            <span class="desc">REST API CRUD</span>
+            <span class="auth auth-admin">ADMIN</span>
+        </li>
+    </ul>
+</body>
+</html>
