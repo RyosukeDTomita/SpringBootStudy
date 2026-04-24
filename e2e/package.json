@@ -1,0 +1,16 @@
+{
+  "name": "e2e",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "bunx playwright test --config=playwright.config.ts",
+    "test:headed": "bunx playwright test --config=playwright.config.ts --headed"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

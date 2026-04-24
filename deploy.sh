@@ -1,6 +1,12 @@
 #!/bin/bash
 set -e
 
+# すでにサービスが起動している場合はスキップ
+if curl -s --max-time 2 http://localhost:8080 > /dev/null 2>&1; then
+    echo "アプリはすでに起動しています (localhost:8080)"
+    exit 0
+fi
+
 # Start DB
 CONTAINER_NAME="userdb"
 if podman ps -a --format "{{.Names}}" | grep -q "^${CONTAINER_NAME}$"; then

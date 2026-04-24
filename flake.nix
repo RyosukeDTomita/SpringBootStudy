@@ -73,6 +73,7 @@
             curl
             jq
             httpie
+            bun
           ];
 
           JAVA_HOME = "${pkgs.jdk21}";
