@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>商品登録 (REST API)</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        h1 { color: #333; }
+        h2 { color: #555; margin-top: 32px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+        th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
+        th { background: #f5f5f5; }
+        form { display: flex; gap: 8px; align-items: end; flex-wrap: wrap; margin-top: 12px; }
+        label { display: flex; flex-direction: column; font-size: 0.9rem; color: #555; }
+        input { padding: 6px 8px; font-size: 1rem; border: 1px solid #ccc; border-radius: 4px; width: 140px; }
+        button { padding: 8px 16px; font-size: 1rem; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-create { background: #27ae60; }
+        .btn-create:hover { background: #219a52; }
+        .btn-update { background: #2980b9; }
+        .btn-update:hover { background: #2471a3; }
+        .btn-delete { background: #c0392b; font-size: 0.85rem; padding: 4px 10px; }
+        .btn-delete:hover { background: #a93226; }
+        .btn-reload { background: #7f8c8d; }
+        .btn-reload:hover { background: #6c7a7b; }
+        .msg { margin-top: 12px; padding: 10px 14px; border-radius: 4px; }
+        .msg-ok { color: #27ae60; background: #eafaf1; }
+        .msg-err { color: #c0392b; background: #fdecea; }
+        .nav { margin-top: 24px; }
+        .nav a { color: #4a90d9; text-decoration: none; }
+        .nav a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>商品登録 (REST API)</h1>
+
+    <h2>商品を登録する</h2>
+    <form id="createForm">
+        <label>商品名 <input id="createName" required></label>
+        <label>価格 <input id="createPrice" type="number" min="0" required></label>
+        <label>説明 <input id="createDesc"></label>
+        <button type="submit" class="btn-create">登録 (POST)</button>
+    </form>
+
+    <h2>商品を更新する</h2>
+    <form id="updateForm">
+        <label>ID <input id="updateId" type="number" min="1" required style="width:60px"></label>
+        <label>商品名 <input id="updateName" required></label>
+        <label>価格 <input id="updatePrice" type="number" min="0" required></label>
+        <label>説明 <input id="updateDesc"></label>
+        <button type="submit" class="btn-update">更新 (PUT)</button>
+    </form>
+
+    <div id="message"></div>
+
+    <h2>商品一覧 <button class="btn-reload" onclick="loadItems()">再読み込み</button></h2>
+    <table>
+        <thead>
+            <tr><th>ID</th><th>商品名</th><th>価格</th><th>説明</th><th></th></tr>
+        </thead>
+        <tbody id="itemList"></tbody>
+    </table>
+
+    <div class="nav">
+        <a href="/shop">ショップへ</a> | <a href="/users">ユーザー検索へ</a>
+    </div>
+
+    <script>
+        const API = '/register/item';
+
+        function showMsg(text, ok) {
+            const el = document.getElementById('message');
+            el.textContent = text;
+            el.className = 'msg ' + (ok ? 'msg-ok' : 'msg-err');
+        }
+
+        async function loadItems() {
+            const res = await fetch(API);
+            const items = await res.json();
+            const tbody = document.getElementById('itemList');
+            tbody.innerHTML = items.map(i => `
+                <tr>
+                    <td>${i.itemId}</td>
+                    <td>${i.name}</td>
+                    <td>${i.price}円</td>
+                    <td>${i.description || ''}</td>
+                    <td><button class="btn-delete" onclick="deleteItem(${i.itemId})">削除</button></td>
+                </tr>
+            `).join('');
+        }
+
+        document.getElementById('createForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const body = {
+                name: document.getElementById('createName').value,
+                price: Number(document.getElementById('createPrice').value),
+                description: document.getElementById('createDesc').value
+            };
+            const res = await fetch(API, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            if (res.ok) {
+                showMsg('登録しました', true);
+                e.target.reset();
+                loadItems();
+            } else {
+                showMsg('登録に失敗しました', false);
+            }
+        });
+
+        document.getElementById('updateForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('updateId').value;
+            const body = {
+                name: document.getElementById('updateName').value,
+                price: Number(document.getElementById('updatePrice').value),
+                description: document.getElementById('updateDesc').value
+            };
+            const res = await fetch(API + '/' + id, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            if (res.ok) {
+                showMsg('更新しました', true);
+                e.target.reset();
+                loadItems();
+            } else {
+                showMsg('更新に失敗しました (IDが存在しない可能性があります)', false);
+            }
+        });
+
+        async function deleteItem(id) {
+            const res = await fetch(API + '/' + id, { method: 'DELETE' });
+            if (res.ok) {
+                showMsg('削除しました (ID: ' + id + ')', true);
+                loadItems();
+            } else {
+                showMsg('削除に失敗しました', false);
+            }
+        }
+
+        loadItems();
+    </script>
+</body>
+</html>

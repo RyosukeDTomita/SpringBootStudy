@@ -24,4 +24,5 @@ done
 gradle bootJar
 nix build path:.#container
 podman load < result
+rm -f result   # nix store の GC root を削除して gc で回収可能にする
 podman run --rm --network=host spring-boot-study:latest

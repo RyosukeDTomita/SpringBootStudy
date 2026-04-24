@@ -30,3 +30,11 @@ CREATE TABLE IF NOT EXISTS orders (
 -- りんごを5個だけ入荷
 INSERT INTO products (name, price, stock) VALUES ('りんご', 150, 5)
 ON CONFLICT DO NOTHING;
+
+-- 商品登録テーブル (REST API用)
+CREATE TABLE IF NOT EXISTS items (
+    item_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    price INTEGER NOT NULL,
+    description TEXT
+);

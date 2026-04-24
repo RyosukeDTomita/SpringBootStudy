@@ -16,9 +16,13 @@
 </head>
 <body>
     <h1>ユーザー検索</h1>
-    <form action="/users/" method="get" onsubmit="this.action='/users/' + document.getElementById('userId').value; return true;">
-        <input type="text" id="userId" name="userId" placeholder="ユーザーIDを入力" required>
+    <!-- Bean Validationを使うためにth:actionでフォーム送信先を指定し、th:objectでフォームオブジェクトをバインド -->
+    <!-- NOTE: #fields.hasErrors() は th:object のスコープ内（form内）でないと BindingResult が見つからずエラーになる -->
+    <form th:action="@{/users}" th:object="${searchRequest}" method="get">
+        <input type="text" th:field="*{userId}" placeholder="ユーザーIDを入力">
         <button type="submit">検索</button>
+        <!-- Bean Validationのエラーメッセージ表示 -->
+        <div th:if="${#fields.hasErrors('userId')}" class="error" th:errors="*{userId}"></div>
     </form>
 
     <div th:if="${errorMessage}" class="error" th:text="${errorMessage}"></div>
