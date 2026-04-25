@@ -1,5 +1,5 @@
 package com.example.study.domain;
 
 public interface OrderRepository {
-    void save(Order order);
+  void save(Order order);
 }

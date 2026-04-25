@@ -9,7 +9,7 @@ Tutorial repository for Java 21 + Spring Boot 3.x.
 - [ENVIRONMENT](#environment)
 - [For Developer](#for-developer)
 
----
+______________________________________________________________________
 
 ## TECH STACK
 
@@ -32,7 +32,7 @@ Tutorial repository for Java 21 + Spring Boot 3.x.
 | Built in AP Server | Tomcat |
 | Container | Podman + Nix `dockerTools` |
 
----
+______________________________________________________________________
 
 ## ABOUT
 
@@ -74,7 +74,7 @@ Implements a user profile search feature using MVC + Hexagonal Architecture (Con
 | 設定 | `application.yaml` による外部設定 (datasource, mybatis) |
 | レコード | Java `record` を DTO として活用 |
 
----
+______________________________________________________________________
 
 ## ENVIRONMENT
 
@@ -89,7 +89,7 @@ Implements a user profile search feature using MVC + Hexagonal Architecture (Con
 nix develop
 ```
 
----
+______________________________________________________________________
 
 ## For Developer
 
@@ -125,10 +125,12 @@ gradle bootRun
 ./stop.sh
 ```
 
-### Test
+### Test (JUnit)
 
 ```bash
 gradle test
+gradle test -PverboseTest # 各テストごとの情報を表示したい時。
+gradle clean test # skippedされたテストも含めて完全にやり直す場合
 ```
 
 ### E2E Test (Playwright)
@@ -178,19 +180,19 @@ dao/          MyBatis @Mapper implementing the repository (adapter)
 
 ### API / Endpoints
 
-| Method | Path                      | Description              | Auth        |
+| Method | Path | Description | Auth |
 | ------ | ------------------------- | ------------------------ | ----------- |
-| GET    | `/hello`                  | Greeting API (JSON)      | -           |
-| GET    | `/users`                  | User search form         | -           |
-| GET    | `/users/{userId}`         | Show user profile        | -           |
-| GET    | `/shop`                   | Shop page                | USER        |
-| POST   | `/shop/purchase`          | Purchase product         | USER        |
-| GET    | `/register/item`          | List all items (JSON)    | ADMIN       |
-| GET    | `/register/item/{itemId}` | Get item by ID (JSON)    | ADMIN       |
-| POST   | `/register/item`          | Create item (JSON)       | ADMIN       |
-| PUT    | `/register/item/{itemId}` | Update item (JSON)       | ADMIN       |
-| DELETE | `/register/item/{itemId}` | Delete item              | ADMIN       |
-| GET    | `/api/me`                 | Current user info (JSON) | USER        |
+| GET | `/hello` | Greeting API (JSON) | - |
+| GET | `/users` | User search form | - |
+| GET | `/users/{userId}` | Show user profile | - |
+| GET | `/shop` | Shop page | USER |
+| POST | `/shop/purchase` | Purchase product | USER |
+| GET | `/register/item` | List all items (JSON) | ADMIN |
+| GET | `/register/item/{itemId}` | Get item by ID (JSON) | ADMIN |
+| POST | `/register/item` | Create item (JSON) | ADMIN |
+| PUT | `/register/item/{itemId}` | Update item (JSON) | ADMIN |
+| DELETE | `/register/item/{itemId}` | Delete item | ADMIN |
+| GET | `/api/me` | Current user info (JSON) | USER |
 
 **Hello API example:**
 

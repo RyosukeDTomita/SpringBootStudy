@@ -9,9 +9,9 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface ShopConverter {
-    Product toProduct(ProductEntity entity);
+  Product toProduct(ProductEntity entity);
 
-    ProductResponse toResponse(Product product);
+  ProductResponse toResponse(Product product);
 
-    OrderEntity toEntity(Order order);
+  OrderEntity toEntity(Order order);
 }

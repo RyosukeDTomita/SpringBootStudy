@@ -33,6 +33,11 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    if (project.hasProperty("verboseTest")) {
+        testLogging {
+            events("passed", "skipped", "failed")
+        }
+    }
 }
 
 tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
