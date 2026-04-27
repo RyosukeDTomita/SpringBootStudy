@@ -9,9 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -34,7 +31,6 @@ public class SecurityConfig {
                     // 購入画面はログイン済みユーザ
                     .requestMatchers("/shop/**")
                     .authenticated()
-                    // 認証ユーザ情報 API
                     .requestMatchers("/api/me")
                     .authenticated()
                     // それ以外は誰でもアクセス可能
@@ -73,18 +69,6 @@ public class SecurityConfig {
     }
   }
 
-  @Bean
-  public UserDetailsService userDetailsService() {
-    var admin =
-        User.withDefaultPasswordEncoder()
-            .username("admin")
-            .password("admin")
-            .roles("ADMIN", "USER")
-            .build();
-
-    var user =
-        User.withDefaultPasswordEncoder().username("user").password("user").roles("USER").build();
-
-    return new InMemoryUserDetailsManager(admin, user);
-  }
+  // UserDetailsService は service/DbUserDetailsService.java で @Service として定義されており、
+  // Spring が自動で AuthenticationManager に紐づける。
 }

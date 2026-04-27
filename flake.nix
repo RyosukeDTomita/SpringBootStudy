@@ -18,7 +18,13 @@
           projectRootFile = "flake.nix";
 
           # Markdown
-          programs.mdformat.enable = true;
+          # mdformat 本体は thematic break を `___` で出力する仕様で設定不可のため、
+          # `---` で出力する mdformat-simple-breaks プラグインを同梱した独自パッケージを使う。
+          # programs.mdformat は package 上書きを尊重しないため、settings.formatter で直接指定する。
+          settings.formatter.mdformat = {
+            command = "${pkgs.mdformat.withPlugins (ps: with ps; [ mdformat-simple-breaks ])}/bin/mdformat";
+            includes = [ "*.md" ];
+          };
 
           # Java
           programs.google-java-format.enable = true;

@@ -13,7 +13,7 @@ application.yaml に書いた spring.datasource.\* の設定を元に、Spring B
 1. MyBatis Spring Boot Starter がその DataSource を受け取り、SqlSessionFactory を構築
 1. @Mapper インターフェースが SqlSession 経由で SQL を実行
 
-______________________________________________________________________
+---
 
 ## `@Transactional`
 
@@ -36,7 +36,7 @@ Proxyオブジェクトはもとのクラスを継承、もしくはインター
 > [!NOTE]
 > `PlatformTransactionManager`の具象クラスはSpring Bootのauto-configurationが自動で選択してくれる。
 
-______________________________________________________________________
+---
 
 ## コネクションは誰が持つ?
 

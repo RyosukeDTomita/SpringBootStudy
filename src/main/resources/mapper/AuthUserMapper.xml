@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.study.dao.AuthUserMapper">
+
+    <resultMap id="authUserResultMap" type="AuthUserEntity">
+        <id     property="userId"   column="user_id"/>
+        <result property="password" column="password"/>
+        <result property="role"     column="role"/>
+    </resultMap>
+
+    <select id="findByUserId" parameterType="String" resultMap="authUserResultMap">
+        SELECT user_id, password, role
+        FROM auth_users
+        WHERE user_id = #{userId}
+    </select>
+
+</mapper>

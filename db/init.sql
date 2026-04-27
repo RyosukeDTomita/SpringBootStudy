@@ -38,3 +38,18 @@ CREATE TABLE IF NOT EXISTS items (
     price INTEGER NOT NULL,
     description TEXT
 );
+
+-- 認証ユーザテーブル (Spring Security 用)
+-- パスワードは {noop}<plaintext> 形式で保存する。Spring Security の DelegatingPasswordEncoder が
+-- {noop} プレフィックスを「ハッシュなし」として解釈するため、現状はそのまま比較される。
+-- TODO: ユーザ登録機能の実装時に {bcrypt} 形式へ移行する。
+CREATE TABLE IF NOT EXISTS auth_users (
+    user_id  VARCHAR(50)  PRIMARY KEY,
+    password VARCHAR(255) NOT NULL,
+    role     VARCHAR(20)  NOT NULL
+);
+
+INSERT INTO auth_users (user_id, password, role) VALUES
+    ('admin', '{noop}admin', 'ADMIN'),
+    ('user',  '{noop}user',  'USER')
+ON CONFLICT (user_id) DO NOTHING;

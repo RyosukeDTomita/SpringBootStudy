@@ -9,7 +9,7 @@ Tutorial repository for Java 21 + Spring Boot 3.x.
 - [ENVIRONMENT](#environment)
 - [For Developer](#for-developer)
 
-______________________________________________________________________
+---
 
 ## TECH STACK
 
@@ -32,7 +32,7 @@ ______________________________________________________________________
 | Built in AP Server | Tomcat |
 | Container | Podman + Nix `dockerTools` |
 
-______________________________________________________________________
+---
 
 ## ABOUT
 
@@ -65,7 +65,7 @@ Implements a user profile search feature using MVC + Hexagonal Architecture (Con
 | マッピング | MapStruct (`@Mapper(componentModel = "spring")`, `@Mapping`) |
 | Security | `@EnableWebSecurity` + `SecurityFilterChain` によるロールベースアクセス制御 |
 | Security | フォームログイン + `HttpSession` によるセッション管理 |
-| Security | `InMemoryUserDetailsManager` によるユーザ定義 |
+| Security | DB バックエンドの `UserDetailsService` 実装 (MyBatis 経由で `auth_users` テーブルを参照) |
 | Security | `CookieCsrfTokenRepository` による CSRF 対策 |
 | Security | `thymeleaf-extras-springsecurity6` (`sec:authentication`) による認証情報の画面表示 |
 | テスト | `@WebMvcTest` + `MockMvc` によるコントローラー単体テスト |
@@ -74,7 +74,19 @@ Implements a user profile search feature using MVC + Hexagonal Architecture (Con
 | 設定 | `application.yaml` による外部設定 (datasource, mybatis) |
 | レコード | Java `record` を DTO として活用 |
 
-______________________________________________________________________
+### Architecture
+
+```text
+controller/   HTTP layer (Spring MVC @Controller / @RestController)
+service/      Use case layer (@Service) — orchestrates domain and DAO
+domain/       Entities and repository interface (port)
+dao/          MyBatis @Mapper implementing the repository (adapter)
+```
+
+- View: Thymeleaf templates (`src/main/resources/templates/`)
+- SQL: MyBatis XML Mapper (`src/main/resources/mapper/UserMapper.xml`)
+
+---
 
 ## ENVIRONMENT
 
@@ -89,9 +101,19 @@ ______________________________________________________________________
 nix develop
 ```
 
-______________________________________________________________________
+---
 
 ## For Developer
+
+### VS Codeを使う場合
+
+`nix develope`しないともろもろのPATHが通らないのでLSP等がうまく動きません。`
+
+```shell
+cd SpringBootStudy
+nix develope # direnvを使っているなら不要
+code .
+```
 
 ### Run locally
 
@@ -165,18 +187,6 @@ nix fmt
 # Stop
 ./stop.sh
 ```
-
-### Architecture
-
-```
-controller/   HTTP layer (Spring MVC @Controller / @RestController)
-service/      Use case layer (@Service) — orchestrates domain and DAO
-domain/       Entities and repository interface (port)
-dao/          MyBatis @Mapper implementing the repository (adapter)
-```
-
-- View: Thymeleaf templates (`src/main/resources/templates/`)
-- SQL: MyBatis XML Mapper (`src/main/resources/mapper/UserMapper.xml`)
 
 ### API / Endpoints
 
