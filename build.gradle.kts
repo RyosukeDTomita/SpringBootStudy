@@ -29,6 +29,8 @@ dependencies {
     annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
+    // テスト用に H2 をインメモリで使う。runtime のみで十分 (JDBC ドライバとして読み込まれる)
+    testRuntimeOnly("com.h2database:h2")
 }
 
 tasks.withType<Test> {

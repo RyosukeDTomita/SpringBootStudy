@@ -1,0 +1,19 @@
+spring:
+  # テスト時は H2 のインメモリ DB を PostgreSQL 互換モードで使う。
+  # MODE=PostgreSQL: SERIAL や ON CONFLICT 等を本番と同じ構文で書ける。
+  # DATABASE_TO_LOWER=TRUE: 識別子を小文字で扱い、PostgreSQL の挙動に合わせる。
+  # DB_CLOSE_DELAY=-1: JVM 終了まで DB を保持する (テスト間で接続が閉じても DB が消えないようにするため)。
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  # spring.sql.init で schema.sql を流して DDL を準備する
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.study.dao

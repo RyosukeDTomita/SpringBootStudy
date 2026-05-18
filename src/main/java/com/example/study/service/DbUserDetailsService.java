@@ -12,8 +12,9 @@ import org.springframework.stereotype.Service;
  * Spring Security の {@link UserDetailsService} 実装。 DB の auth_users テーブルからユーザを引き、 認証用の {@link
  * UserDetails} を組み立てる。
  *
- * <p>パスワードは DB に {noop}xxx 形式で格納されている前提。 デフォルトの DelegatingPasswordEncoder が {noop} プレフィックスを
- * 「ハッシュなし」として認識する。
+ * <p>パスワードは DB に {bcrypt}xxx 形式で格納されている前提。
+ * NOTE: デフォルトの DelegatingPasswordEncoder が {bcrypt} プレフィックスを見て、
+ * BCryptPasswordEncoder で照合する。
  */
 @Service
 public class DbUserDetailsService implements UserDetailsService {
