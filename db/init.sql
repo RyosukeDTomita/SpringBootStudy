@@ -38,3 +38,20 @@ CREATE TABLE IF NOT EXISTS items (
     price INTEGER NOT NULL,
     description TEXT
 );
+
+-- 認証ユーザテーブル (Spring Security 用)
+-- パスワードは {bcrypt}<hash> 形式で保存する。Spring Security の DelegatingPasswordEncoder が
+-- {bcrypt} プレフィックスを見て BCryptPasswordEncoder で照合する。
+-- 下記ハッシュは BCryptPasswordEncoder (strength=10) で生成済み:
+--   admin => "admin"
+--   user  => "user"
+CREATE TABLE IF NOT EXISTS auth_users (
+    user_id  VARCHAR(50)  PRIMARY KEY,
+    password VARCHAR(255) NOT NULL,
+    role     VARCHAR(20)  NOT NULL
+);
+
+INSERT INTO auth_users (user_id, password, role) VALUES
+    ('admin', '{bcrypt}$2a$10$2ofKv2J8rSi4PbsXteiZcebkTJxoJFWqbE2MP96CldxDi.6n9gUNu', 'ADMIN'),
+    ('user',  '{bcrypt}$2a$10$yUfBYvucDdmzEffnzGCEHO8yiZoaO9cHo8BoSEuSPjAXs7wvG6IkW', 'USER')
+ON CONFLICT (user_id) DO NOTHING;

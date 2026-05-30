@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>ショップ</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 0 20px; }
+        h1 { color: #333; }
+        .product { background: #f9f9f9; padding: 20px; border-radius: 8px; margin-top: 20px; }
+        .product-name { font-size: 1.4rem; font-weight: bold; }
+        .product-price { color: #666; margin-top: 8px; }
+        .product-stock { margin-top: 8px; }
+        .stock-zero { color: #c0392b; font-weight: bold; }
+        form { display: flex; gap: 8px; margin-top: 16px; align-items: center; }
+        input[type="number"] { width: 60px; padding: 8px; font-size: 1rem; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 8px 20px; font-size: 1rem; background: #27ae60; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #219a52; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        .success { margin-top: 16px; color: #27ae60; background: #eafaf1; padding: 10px 14px; border-radius: 4px; }
+        .error { margin-top: 16px; color: #c0392b; background: #fdecea; padding: 10px 14px; border-radius: 4px; }
+        .nav { margin-top: 24px; }
+        .nav a { color: #4a90d9; text-decoration: none; }
+        .nav a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <!-- sec:authentication で Spring Security の認証情報からユーザ名を表示 -->
+    <div style="text-align: right; color: #666;">
+        ログイン中: <span sec:authentication="name">user</span>
+        | <a th:href="@{/logout}" style="color: #c0392b;">ログアウト</a>
+    </div>
+
+    <h1>ショップ</h1>
+
+    <div class="product">
+        <div class="product-name" th:text="${product.name()}">りんご</div>
+        <div class="product-price">価格: <span th:text="${product.price()}">150</span>円</div>
+        <div class="product-stock">
+            在庫:
+            <span th:if="${product.stock() > 0}" th:text="${product.stock() + '個'}">5個</span>
+            <span th:if="${product.stock() == 0}" class="stock-zero">売り切れ</span>
+        </div>
+
+        <!-- th:action を使うと Thymeleaf が CSRF hidden フィールドを自動挿入する -->
+        <form th:if="${product.stock() > 0}" th:action="@{/shop/purchase}" method="post">
+            <input type="hidden" name="productId" th:value="${product.productId()}"/>
+            <label for="quantity">数量:</label>
+            <input type="number" id="quantity" name="quantity" value="1" min="1"/>
+            <button type="submit">購入する</button>
+        </form>
+    </div>
+
+    <div th:if="${successMessage}" class="success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="error" th:text="${errorMessage}"></div>
+
+    <div class="nav">
+        <a th:href="@{/}">ホームへ戻る</a>
+    </div>
+</body>
+</html>

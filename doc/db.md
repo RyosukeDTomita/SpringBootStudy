@@ -2,16 +2,16 @@
 
 ## コネクションはSpring Bootのauto-configurationが作成している
 
-application.yaml に書いた spring.datasource.* の設定を元に、Spring Bootのauto-configuration が自動的にDataSource（コネクションプール）を作成しています。
+application.yaml に書いた spring.datasource.\* の設定を元に、Spring Bootのauto-configuration が自動的にDataSource（コネクションプール）を作成しています。
 
 具体的には:
 
-  1. Spring Boot がクラスパス上の PostgreSQL ドライバを検出
-  2. application.yaml の url / username / password を読み取り
-  3. HikariCP（Spring Boot デフォルトのコネクションプールライブラリ）で DataSource Bean
-  を生成
-  4. MyBatis Spring Boot Starter がその DataSource を受け取り、SqlSessionFactory を構築
-  5. @Mapper インターフェースが SqlSession 経由で SQL を実行
+1. Spring Boot がクラスパス上の PostgreSQL ドライバを検出
+1. application.yaml の url / username / password を読み取り
+1. HikariCP（Spring Boot デフォルトのコネクションプールライブラリ）で DataSource Bean
+   を生成
+1. MyBatis Spring Boot Starter がその DataSource を受け取り、SqlSessionFactory を構築
+1. @Mapper インターフェースが SqlSession 経由で SQL を実行
 
 ---
 
@@ -29,9 +29,9 @@ Spring Boot の場合、`@SpringBootApplication` に `@EnableAutoConfiguration` 
 Proxyオブジェクトはもとのクラスを継承、もしくはインターフェースを実装しているため、同じメソッドを持っている。
 
 1. **メソッド呼び出しをインターセプト**する
-2. Spring の **`PlatformTransactionManager`** に「トランザクション開始を指示
-3. 元のクラスのメソッドを実行する
-4. 正常終了なら commit、例外なら rollback を依頼する
+1. Spring の **`PlatformTransactionManager`** に「トランザクション開始を指示
+1. 元のクラスのメソッドを実行する
+1. 正常終了なら commit、例外なら rollback を依頼する
 
 > [!NOTE]
 > `PlatformTransactionManager`の具象クラスはSpring Bootのauto-configurationが自動で選択してくれる。

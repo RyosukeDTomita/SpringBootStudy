@@ -9,13 +9,13 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface ItemConverter {
-    Item toDomain(ItemEntity entity);
+  Item toDomain(ItemEntity entity);
 
-    ItemEntity toEntity(Item item);
+  ItemEntity toEntity(Item item);
 
-    ItemResponse toResponse(Item item);
+  ItemResponse toResponse(Item item);
 
-    // ItemRequestにはitemIdが無いため、nullをセットする
-    @Mapping(target = "itemId", ignore = true)
-    Item toDomain(ItemRequest request);
+  // ItemRequestにはitemIdが無いため、nullをセットする
+  @Mapping(target = "itemId", ignore = true)
+  Item toDomain(ItemRequest request);
 }
