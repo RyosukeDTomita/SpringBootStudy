@@ -1,5 +1,5 @@
 {
-  description = "Spring Boot 3 study project – JDK 21 + Gradle dev environment";
+  description = "Spring Boot 4 study project – JDK 21 + Gradle dev environment";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";

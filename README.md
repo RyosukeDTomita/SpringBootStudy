@@ -1,6 +1,6 @@
 # Spring Boot Study
 
-Tutorial repository for Java 21 + Spring Boot 3.x.
+Tutorial repository for Java 21 + Spring Boot 4.x.
 
 ## INDEX
 
@@ -36,7 +36,7 @@ Tutorial repository for Java 21 + Spring Boot 3.x.
 
 ## ABOUT
 
-A study project exploring Spring Boot 3 with Java 21, packaged as an OCI container image via Nix.
+A study project exploring Spring Boot 4 with Java 21, packaged as an OCI container image via Nix.
 
 Implements a user profile search feature using MVC + Hexagonal Architecture (Controller / Service / Domain / DAO layers), with MyBatis XML Mapper for SQL and PostgreSQL as the database.
 
